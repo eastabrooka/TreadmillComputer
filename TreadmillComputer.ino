@@ -1,11 +1,12 @@
-// Arduino with PCF8574T I2C LCD example
-
 #include <Wire.h>                  // Include Wire library (required for I2C devices)
 #include <LiquidCrystal_I2C.h>     // Include LiquidCrystal_I2C library 
 
 LiquidCrystal_I2C lcd(0x27, 20, 4);  // Configure LiquidCrystal_I2C library with 0x27 address, 16 columns and 2 rows
 #define HOUR 3600
 #define MIN 60
+
+const int ledPin =  13;      // the number of the LED pin
+
 
 void PrintBoilerplate()
 {
@@ -17,7 +18,6 @@ void PrintBoilerplate()
   lcd.print("Est 5K Time:");
   lcd.setCursor(0, 3);
   lcd.print("Calories Burnt");
-
   delay(1000);
 }
 
@@ -84,6 +84,37 @@ void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(20, 4);
   PrintBoilerplate();
+
+    // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);
+  // initialize the pushbutton pin as an input:
+  pinMode(A0, INPUT);
+
+
+/////////////////////////////
+
+
+  // read the input on analog pin 0:
+  int sensorValue = analogRead(A1);
+  // print out the value you read:
+  Serial.print(sensorValue);
+    Serial.print(",");
+
+
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if (digitalRead(A0) == HIGH) {
+    // turn LED on:
+    digitalWrite(ledPin, HIGH);
+          Serial.println(0);
+
+  } else {
+    // turn LED off:
+    digitalWrite(ledPin, LOW);
+          Serial.println(1000);
+
+  }
+//////////////////////////////////////////
+
 
   delay(2000);
 
